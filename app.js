@@ -14,6 +14,7 @@ app.get("/linkforge", (req, res) => {
     "errCode": "00000",
     "message": "🎉 Linkforge repo test success."
   };
+  
   res.status(200).json(result);
 });
 
