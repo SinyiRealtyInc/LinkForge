@@ -32,4 +32,11 @@ router.post("/lineFlexMessageWithParameter", (req, res) => {
   });
 });
 
+router.post("/textmessage", (req, res) => {
+  res.status(200).send({
+    "type": "text", 
+    "text": "Send by render. 🔥"
+  });
+});
+
 module.exports = router; 
