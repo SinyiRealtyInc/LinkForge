@@ -8,11 +8,11 @@ router.get("/test", (req, res) => {
     "message": "🎉 Omnichat router test success."
   };
 
-  res.status(200).json(result);
+  res.status(200).send(result);
 });
 
 router.post("/lineFlexMessageWithParameter", (req, res) => {
-  res.status(200).json({
+  res.status(200).send({
     "messages": [
       {
         "type": "lineFlexMessageTemplates",
