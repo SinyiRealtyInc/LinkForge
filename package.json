@@ -1,0 +1,30 @@
+{
+  "name": "linkforge",
+  "version": "1.0.0",
+  "description": "🔗 Used for integrating and authenticating third-party services based on Node.js Express.",
+  "main": "app.js",
+  "scripts": {
+    "dev": "nodemon app.js",
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SinyiRealtyInc/LinkForge.git"
+  },
+  "keywords": [
+    "link"
+  ],
+  "author": "SinyiRealty",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SinyiRealtyInc/LinkForge/issues"
+  },
+  "homepage": "https://github.com/SinyiRealtyInc/LinkForge#readme",
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}
