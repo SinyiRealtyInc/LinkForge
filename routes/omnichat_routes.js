@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
 
-router.get("/test", (req, res) => {
+router.get("/home", (req, res) => {
   let result = {
     "status": true,
     "errCode": "00000",
-    "message": "🎉 Omnichat router test success."
+    "message": "🎉 Welcome to omnichat home."
   };
 
   res.status(200).send(JSON.stringify(result));
