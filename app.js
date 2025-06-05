@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 
 // 測試環境下，使用 dotenv 套件
 if (process.env.NODE_ENV != "productuin") {
@@ -15,6 +16,10 @@ app.set("view engine", "ejs");
 
 // 設定公開資源目錄（可供瀏覽器直接存取）
 app.use(express.static('public'));
+
+// 設定讓 .well-known 資料夾中的靜態檔案可被存取
+app.use("/.well-known", express.static(path.join(__dirname, ".well-known")));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
