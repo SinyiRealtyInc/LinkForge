@@ -11,6 +11,10 @@ const omnichatRoutes = require("./routes/omnichat_routes");
 const regularRoutes = require("./routes/regular_routes");
 const cryptoRoutes = require("./routes/crypto_routes");
 
+app.set("view engine", "ejs");
+
+// 設定公開資源目錄（可供瀏覽器直接存取）
+app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -27,6 +31,10 @@ app.get("/home", (req, res) => {
   };
 
   res.status(200).json(result);
+});
+
+app.get("/smartbanner", (req, res) => {
+  return res.render("smartbanner");
 });
 
 app.listen("3000", () => {
