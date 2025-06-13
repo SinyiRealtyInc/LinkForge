@@ -19,7 +19,7 @@ app.set("view engine", "ejs");
 app.use(express.static('public'));
 
 // 設定讓 .well-known 資料夾中的靜態檔案可被存取
-//app.use("/.well-known", express.static(path.join(__dirname, ".well-known")));
+app.use("/.well-known", express.static(path.join(__dirname, ".well-known")));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -40,7 +40,7 @@ app.get("/home", (req, res) => {
 });
 
 // App Link & Universal Link
-app.get("/.well-known/:fileName", (req, res) => {
+/*app.get("/.well-known/:fileName", (req, res) => {
   let { fileName } = req.params;
 
   if (fileName == "apple-app-site-association" || fileName == "assetlinks.json") {
@@ -59,7 +59,7 @@ app.get("/.well-known/:fileName", (req, res) => {
   } else {
     return res.status(400).json({ error: '找不到檔案！' });
   }
-})
+})*/
 
 app.listen("3000", () => {
   console.log("Server is star running...");
