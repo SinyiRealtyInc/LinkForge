@@ -1,6 +1,5 @@
 const express = require("express");
 const path = require("path");
-const fs = require("fs");
 
 // 測試環境下，使用 dotenv 套件
 if (process.env.NODE_ENV != "productuin") {
@@ -12,6 +11,7 @@ const app = express();
 const omnichatRoutes = require("./routes/omnichat_routes");
 const regularRoutes = require("./routes/regular_routes");
 const cryptoRoutes = require("./routes/crypto_routes");
+const lineoaRoutes = require("./routes/lineoa_routes");
 
 app.set("view engine", "ejs");
 
@@ -28,6 +28,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/omnichat", omnichatRoutes);
 app.use("/regular", regularRoutes);
 app.use("/crypto", cryptoRoutes);
+app.use("/lineoa", lineoaRoutes);
 
 app.get("/home", (req, res) => {
   let result = {

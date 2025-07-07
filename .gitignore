@@ -136,3 +136,6 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# .p8 file
+AuthKey_F4G8Y7YX6F.p8
