@@ -6,7 +6,8 @@
         "appID": "W7VR44AH4Q.com.sinyi.HelloCodeAgain",
         "paths": [
           "NOT /_/*",
-          "/*"
+          "/",
+          "/home"
         ]
       }
     ]
