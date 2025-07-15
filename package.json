@@ -1,6 +1,7 @@
 {
   "name": "linkforge",
   "version": "1.0.0",
+  "type": "module",
   "description": "🔗 Used for integrating and authenticating third-party services based on Node.js Express.",
   "main": "app.js",
   "engines": {
@@ -28,6 +29,7 @@
     "dotenv": "^16.5.0",
     "ejs": "^3.1.10",
     "express": "^4.21.2",
+    "got": "^14.4.7",
     "jsonwebtoken": "^9.0.2"
   },
   "devDependencies": {

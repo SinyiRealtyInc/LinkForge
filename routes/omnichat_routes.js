@@ -1,18 +1,17 @@
-const express = require("express");
+import express from 'express';
+
 const router = express.Router();
 
 router.get("/home", (req, res) => {
-  let result = {
-    "status": true,
-    "errCode": "00000",
-    "message": "🎉 Welcome to omnichat home."
-  };
-
-  res.status(200).send(JSON.stringify(result));
+  res.status(200).json({
+    status: true,
+    errCode: "00000",
+    message: "🎉 Welcome to omnichat home."
+  });
 });
 
 router.post("/lineFlexMessageWithParameter", (req, res) => {
-  res.status(200).send({
+  res.status(200).json({
     "messages": [
       {
         "type": "lineFlexMessageTemplates",
@@ -33,16 +32,14 @@ router.post("/lineFlexMessageWithParameter", (req, res) => {
 });
 
 router.post("/textmessage", (req, res) => {
-  let result = {
+  res.status(200).json({
    "messages": [
       {
         "type": "text",
         "text": "Send textmessage template."
       }
     ]
-  };
-
-  res.status(200).send(JSON.stringify(result));
+  });
 });
 
-module.exports = router; 
+export default router;

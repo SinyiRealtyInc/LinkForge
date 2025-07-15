@@ -1,24 +1,21 @@
-const express = require("express");
+import express from 'express';
+
 const router = express.Router();
 
 router.get("/home", (req, res) => {
-  let result = {
-    "status": true,
-    "errCode": "00000",
-    "message": "🎉 Welcome to LINE OA home."
-  };
-
-  res.status(200).send(JSON.stringify(result));
+  res.status(200).json({
+    status: true,
+    errCode: "00000",
+    message: "🎉 Welcome to LINE OA home."
+  });
 });
 
 router.get("/redirect", (req, res) => {
-  let result = {
-    "status": true,
-    "errCode": "00000",
-    "message": "🎉 Success to redirect."
-  };
-
-  res.status(200).send(JSON.stringify(result));
+  res.status(200).json({
+    status: true,
+    errCode: "00000",
+    message: "🎉 Success to redirect."
+  });
 });
 
-module.exports = router; 
+export default router;

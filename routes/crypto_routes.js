@@ -1,41 +1,34 @@
-const express = require("express");
+import express from 'express';
+import crypto from 'crypto';
+
 const router = express.Router();
-const crypto = require('crypto');
 
 const ALGORITHM = 'aes-256-cbc';
 const KEY = Buffer.from(process.env.AES_KEY, 'utf8');
 const IV  = Buffer.from(process.env.AES_IV, 'utf8');
 
 router.get('/encrypt/:content', (req, res) => {
-  let { content } = req.params;
-
-  let result = {
-    "status": true,
-    "errCode": "00000",
-    "message": `${content}`,
-    "encrypt": null
-  };
-
+  const { content } = req.params;
   const encrypt = encryptFor(content);
   const encode = encodeURIComponent(encrypt);
-  result.encrypt = encode;
-  res.status(200).send(JSON.stringify(result));
+  res.status(200).json({
+    status: true,
+    errCode: '00000',
+    message: `${content}`,
+    encrypt: encode
+  });
 });
 
 router.get('/decrypt/:content', (req, res) => {
-  let { content } = req.params;
-
-  let result = {
-    "status": true,
-    "errCode": "00000",
-    "message": `${content}`,
-    "decrypt": null
-  };
-
+  const { content } = req.params;
   const decode = decodeURIComponent(content);
   const decrypt = decryptFor(decode);
-  result.decrypt = decrypt;
-  res.status(200).send(JSON.stringify(result));
+  res.status(200).json({
+    status: true,
+    errCode: '00000',
+    message: `${content}`,
+    decrypt: decrypt
+  });
 });
 
 function encryptFor(plainText) {
@@ -44,7 +37,6 @@ function encryptFor(plainText) {
     cipher.update(plainText, 'utf8'),
     cipher.final()
   ]);
-
   return encrypted.toString('base64');
 }
 
@@ -54,8 +46,7 @@ function decryptFor(base64Cipher) {
     decipher.update(Buffer.from(base64Cipher, 'base64')),
     decipher.final()
   ]);
-
   return decrypted.toString('utf8');
 }
 
-module.exports = router; 
+export default router;

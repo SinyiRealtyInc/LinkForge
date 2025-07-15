@@ -1,57 +1,57 @@
-const express = require("express");
-const path = require("path");
+import 'dotenv/config';
+import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-// 測試環境下，使用 dotenv 套件
-if (process.env.NODE_ENV != "productuin") {
-  const dotenv = require("dotenv");
-  dotenv.config();
-}
+// Import routes with .js extension
+import omnichatRoutes from './routes/omnichat_routes.js';
+import regularRoutes from './routes/regular_routes.js';
+import cryptoRoutes from './routes/crypto_routes.js';
+import lineoaRoutes from './routes/lineoa_routes.js';
+import apnsRoutes from './routes/apns_routes.js';
+import httpstreamingRoutes from './routes/http_streaming_routes.js';
+
+// Recreate __dirname for ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
-const omnichatRoutes = require("./routes/omnichat_routes");
-const regularRoutes = require("./routes/regular_routes");
-const cryptoRoutes = require("./routes/crypto_routes");
-const lineoaRoutes = require("./routes/lineoa_routes");
+const port = process.env.PORT || 3000;
 
-app.set("view engine", "ejs");
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
-// 設定公開資源目錄（可供瀏覽器直接存取）
 app.use(express.static('public'));
-
-// 設定讓 .well-known 資料夾中的靜態檔案可被存取
-//app.use("/.well-known", express.static(path.join(__dirname, ".well-known")));
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// 檢查path內是否有 omnichat 關鍵字, 有的話會進去 omnichatRoutes 做處理
-app.use("/omnichat", omnichatRoutes);
-app.use("/regular", regularRoutes);
-app.use("/crypto", cryptoRoutes);
-app.use("/lineoa", lineoaRoutes);
+// Routes
+app.use('/omnichat', omnichatRoutes);
+app.use('/regular', regularRoutes);
+app.use('/crypto', cryptoRoutes);
+app.use('/lineoa', lineoaRoutes);
+app.use('/apns', apnsRoutes);
+app.use('/httpstreaming', httpstreamingRoutes);
 
-app.get("/home", (req, res) => {
-  let result = {
-    "status": true,
-    "errCode": "00000",
-    "message": "🎉 Welcome to Linkforge home."
-  };
-
-  res.status(200).json(result);
+app.get('/home', (req, res) => {
+  res.status(200).json({
+    status: true,
+    errCode: '00000',
+    message: '🎉 Welcome to Linkforge home.'
+  });
 });
 
 // App Link & Universal Link
-app.get("/.well-known/:fileName", (req, res) => {
-  let { fileName } = req.params;
-
-  if (fileName == "apple-app-site-association" || fileName == "assetlinks.json") {
+app.get('/.well-known/:fileName', (req, res) => {
+  const { fileName } = req.params;
+  if (fileName === 'apple-app-site-association' || fileName === 'assetlinks.json') {
     res.setHeader('Content-Type', 'application/json');
-    res.sendFile(path.join(__dirname, '.well-known', req.params.fileName));
+    res.sendFile(path.join(__dirname, '.well-known', fileName));
   } else {
-    return res.status(400).json({ error: '找不到檔案！' });
+    res.status(404).json({ error: 'File not found!' });
   }
-})
+});
 
-app.listen("3000", () => {
-  console.log("Server is star running...");
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
 });
