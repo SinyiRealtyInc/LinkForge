@@ -26,8 +26,6 @@ const jwtTokenCache = {
   expiresAt: 0,
 };
 
-// p8 key content
-const privateKey = readPrivateKey();
 
 function generateJWTToken(key, config) {
   // Date.now() 回傳 從 1970.1.1 到現在毫秒數
@@ -122,7 +120,10 @@ async function sendAPNsRequest(deviceToken, jwtToken, payload, isProduction) {
 
 router.post("/push/:deviceToken", async (req, res) => {
   try {
-    // 組合我們的函式
+    // p8 key content
+    const privateKey = readPrivateKey();
+    
+    // 組合函式
     const jwtToken = getValidToken(jwtTokenCache, privateKey, apnsConfig);
     const payload = createAPNsPayload("Got 推播 Title", "Got 推播 SubTitle", "Got 推播 Body");
     const isProduction = process.env.NODE_ENV === "production";
