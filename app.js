@@ -1,5 +1,7 @@
 import 'dotenv/config';
+import https from 'https';
 import express from 'express';
+import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -52,6 +54,20 @@ app.get('/.well-known/:fileName', (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
-});
+// Cert only for Develop
+if (process.env.NODE_ENV != "production") {
+  const keyPath = path.join(__dirname, ".", "public/resource", "key.pem");
+  const certPath = path.join(__dirname, ".", "public/resource", "cert.pem");
+  const options = {
+    key: fs.readFileSync(keyPath),
+    cert: fs.readFileSync(certPath),
+  };
+
+  https.createServer(options, app).listen(port, () => {
+    console.log(`Server is running on https://localhost:${port}`);
+  });
+} else {
+  app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
+  });
+}

@@ -137,5 +137,8 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-# .p8 file
+# Project file
 Sinyi_AppStore_APNs_AuthKey_WRMH5Q8DQF.p8
+cert.pem
+key.pem
+
