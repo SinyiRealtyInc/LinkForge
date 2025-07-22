@@ -1,6 +1,8 @@
-import express from "express";
+import express, { json } from "express";
 
 const router = express.Router();
+
+let cache = new Map();
 
 router.get("/home", (req, res) => {
   let result = {
@@ -12,7 +14,14 @@ router.get("/home", (req, res) => {
   res.status(200).send(JSON.stringify(result));
 });
 
-router.get("/event", (req, res) => {
+// SSE 連線
+router.get("/connect/:uuid", (req, res) => {
+  let { uuid } = req.params;
+
+  if (cache.get(uuid) === undefined) {
+    cache.set(uuid, res);
+  }
+
   // 設定標頭，啟用 SSE 模式
   res.setHeader('Content-Type', 'text/event-stream; charset=utf-8');
   res.setHeader('Cache-Control', 'no-cache');
@@ -21,24 +30,34 @@ router.get("/event", (req, res) => {
   // 立即發送一次連線確認訊息（避免某些 Proxy idle timeout）
   res.write('event: connect\ndata: 連線成功\n\n');
 
-  // 每2秒推送一則訊息
-  const interval = setInterval(() => {
-    const output = {
-      "status": true,
-      "message": `⏱️ 目前時間：${new Date().toISOString()}`
-    };
-
-    // 發送格式遵循 whatwg spec
-    // Reference = https://html.spec.whatwg.org/multipage/server-sent-events.html
-    res.write(`data: ${JSON.stringify(output)}\n\n`);
-  }, 2000);
-
   // 清理資源：客戶端斷線就停止推送
   res.on('close', () => {
-    console.log('🔌 客戶端斷線，中止推送。');
-    clearInterval(interval);
+    console.log(`🔌 客戶端:${uuid} 斷線，中止推送。`);
+    cache.delete(uuid);
     res.end();
   });
+});
+
+// SSE 發送訊息
+router.get("/event/:uuid", (req, res) => {
+  let { uuid } = req.params;
+  const cacheRes = cache.get(uuid);
+
+  let output = {
+      "status": true,
+      "message": `⏱️ 目前時間：${new Date().toISOString()}`
+  };
+
+  // 發送格式遵循 whatwg spec
+  // Reference = https://html.spec.whatwg.org/multipage/server-sent-events.html
+  if (cacheRes) {
+    cacheRes.write(`data: ${JSON.stringify(output)}\n\n`);
+    return res.status(200).json(output);
+  } else {
+    output.status = false;
+    output.message = `客戶:${uuid} 不存在`;
+    return res.status(400).json(output);
+  }
 });
 
 export default router;
