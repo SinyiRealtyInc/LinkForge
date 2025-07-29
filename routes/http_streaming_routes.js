@@ -37,9 +37,9 @@ router.get("/connect/:uuid", (req, res) => {
   res.write('event: connect\ndata: 連線成功\n\n');
 
   // 定期發送註解訊息，確保前後端接保持
-  /*let heartBeatInterval = setInterval(() => {
+  let heartBeatInterval = setInterval(() => {
     res.write(':heartbeat\n\n');
-  }, HEARTBEAT);*/
+  }, HEARTBEAT);
 
   // 清理資源：客戶端斷線就停止推送
   res.on("close", () => {
