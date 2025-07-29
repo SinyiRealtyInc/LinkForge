@@ -54,8 +54,11 @@ app.get('/.well-known/:fileName', (req, res) => {
   }
 });
 
+app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
+});
 // Cert only for Develop
-if (process.env.NODE_ENV != "production") {
+/*if (process.env.NODE_ENV != "production") {
   const keyPath = path.join(__dirname, ".", "public/resource", "localhost-key.pem");
   const certPath = path.join(__dirname, ".", "public/resource", "localhost-cert.pem");
   const options = {
@@ -70,4 +73,4 @@ if (process.env.NODE_ENV != "production") {
   app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
   });
-}
+}*/
