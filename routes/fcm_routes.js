@@ -21,6 +21,10 @@ router.get("/home", (req, res) => {
 firebaseFCMinit();
 
 function firebaseFCMinit() {
+  if (process.env.NODE_ENV === "production") {
+    return;
+  }
+
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
   const serviceAccountPath = path.join(__dirname, '..', 'public/resource', 'firebase-admin-service-account.json');
