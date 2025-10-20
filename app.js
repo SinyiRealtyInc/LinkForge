@@ -11,6 +11,7 @@ import regularRoutes from './routes/regular_routes.js';
 import cryptoRoutes from './routes/crypto_routes.js';
 import lineoaRoutes from './routes/lineoa_routes.js';
 import apnsRoutes from './routes/apns_routes.js';
+import fcmRoutes from './routes/fcm_routes.js';
 import httpstreamingRoutes from './routes/http_streaming_routes.js';
 
 // Recreate __dirname for ESM
@@ -18,7 +19,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3002;
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -33,6 +34,7 @@ app.use('/regular', regularRoutes);
 app.use('/crypto', cryptoRoutes);
 app.use('/lineoa', lineoaRoutes);
 app.use('/apns', apnsRoutes);
+app.use('/fcm', fcmRoutes);
 app.use('/httpstreaming', httpstreamingRoutes);
 
 app.get('/home', (req, res) => {
@@ -54,11 +56,12 @@ app.get('/.well-known/:fileName', (req, res) => {
   }
 });
 
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
-});
+// app.listen(port, () => {
+//     console.log(`Server is running on http://localhost:${port}`);
+// });
+
 // Cert only for Develop
-/*if (process.env.NODE_ENV != "production") {
+if (process.env.NODE_ENV != "production") {
   const keyPath = path.join(__dirname, ".", "public/resource", "localhost-key.pem");
   const certPath = path.join(__dirname, ".", "public/resource", "localhost-cert.pem");
   const options = {
@@ -73,4 +76,4 @@ app.listen(port, () => {
   app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
   });
-}*/
+}
