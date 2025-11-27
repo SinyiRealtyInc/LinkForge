@@ -25,14 +25,19 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.static('public'));
-app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// 這行放在 app.use(express.json()) 前面，是因為要用原始資料進行Hash解析
+// 否則會 line.middleware(config) 驗證錯誤
+// Reference = https://developers.line.biz/en/docs/messaging-api/verify-webhook-url/
+app.use('/lineoa', lineoaRoutes);
+
+app.use(express.json());
 
 // Routes
 app.use('/omnichat', omnichatRoutes);
 app.use('/regular', regularRoutes);
 app.use('/crypto', cryptoRoutes);
-app.use('/lineoa', lineoaRoutes);
 app.use('/apns', apnsRoutes);
 app.use('/fcm', fcmRoutes);
 app.use('/httpstreaming', httpstreamingRoutes);

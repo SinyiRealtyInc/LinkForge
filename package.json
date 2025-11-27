@@ -26,13 +26,14 @@
   },
   "homepage": "https://github.com/SinyiRealtyInc/LinkForge#readme",
   "dependencies": {
+    "@line/bot-sdk": "10.5.0",
+    "@line/liff": "2.27.2",
     "dotenv": "^16.5.0",
     "ejs": "^3.1.10",
     "express": "^4.21.2",
     "firebase-admin": "^13.4.0",
     "got": "^14.4.7",
-    "jsonwebtoken": "^9.0.2",
-    "@line/liff": "2.27.2"
+    "jsonwebtoken": "^9.0.2"
   },
   "devDependencies": {
     "nodemon": "^3.1.9"
